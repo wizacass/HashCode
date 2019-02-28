@@ -21,20 +21,18 @@ namespace HashCode
             {
                 if (!slides[i].IsUsed)
                 {
-
                     int maxPoints = -1;
 
-                    for (int ii = 0; ii < slides.Count; ii++)
+                    for (int j = 0; j < slides.Count; j++)
                     {
-                        if (!slides[ii].IsUsed)
+                        if (!slides[j].IsUsed)
                         {
 
-                            if (CalculatePoints(slides[i], slides[ii]) > maxPoints && i != ii)
+                            if (CalculatePoints(slides[i], slides[j]) > maxPoints && i != j)
                             {
-                                maxPoints = CalculatePoints(slides[i], slides[ii]);
-                                nextSlide = ii;
+                                maxPoints = CalculatePoints(slides[i], slides[j]);
+                                nextSlide = j;
                             }
-
                         }
                     }
                 }
@@ -47,9 +45,7 @@ namespace HashCode
                 current.Use();
                 i = nextSlide;
             }
-
         }
-
 
         static int CalculatePoints(Slide slide1, Slide slide2)
         {
@@ -59,17 +55,26 @@ namespace HashCode
             for (int i = 0; i < slide1._tags.Count; i++)
             {
                 if (slide2._tags.Contains(slide1._tags[i]))
+                {
                     common++;
+                }
             }
             unique1 = slide1._tags.Count - common;
             unique2 = slide2._tags.Count - common;
             if (common <= unique1 && common <= unique2)
+            {
                 return common;
+            }
             else
             {
                 if (unique1 <= unique2)
+                {
                     return unique1;
-                else return unique2;
+                }
+                else
+                {
+                    return unique2;
+                }
             }
         }
 
@@ -109,10 +114,10 @@ namespace HashCode
 
         public static List<Slide> VerticalsToSlides(List<Photo> vertical)
         {
-            List<Slide> slides = new List<Slide>();
+            var slides = new List<Slide>();
             for (int i = vertical.Count / 2 + vertical.Count % 2; i < vertical.Count; i++)
             {
-                int[] overlap = new int[vertical.Count / 2 + vertical.Count % 2];
+                var overlap = new int[vertical.Count / 2 + vertical.Count % 2];
                 for (int j = 0; j < vertical.Count / 2 + vertical.Count % 2; j++)
                 {
                     if (vertical[j].IsUsed)
@@ -125,7 +130,7 @@ namespace HashCode
                 int indexOMin = Array.LastIndexOf(overlap, overlap.Min());
                 vertical[i].Use();
                 vertical[indexOMin].Use();
-                Slide slide = new Slide(vertical[i].ID, vertical[i].Tags, vertical[indexOMin].ID, vertical[indexOMin].Tags);
+                var slide = new Slide(vertical[i].ID, vertical[i].Tags, vertical[indexOMin].ID, vertical[indexOMin].Tags);
                 slides.Add(slide);
             }
             return slides;
