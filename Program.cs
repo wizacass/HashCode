@@ -20,6 +20,7 @@ namespace HashCode
             using (var reader = new StreamReader(filename))
             {
                 int count = int.Parse(reader.ReadLine());
+                int id = 0;
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine().Split();
@@ -33,11 +34,11 @@ namespace HashCode
                     //TODO: sort by Count
                     if (line[0].Equals("H"))
                     {
-                        horizontal.Add(new Photo(tags));
+                        horizontal.Add(new Photo(tags, id++));
                     }
                     else
                     {
-                        vertical.Add(new Photo(tags));
+                        vertical.Add(new Photo(tags, id++));
                     }
                 }
             }
