@@ -1,5 +1,6 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace HashCode
 {
@@ -7,30 +8,10 @@ namespace HashCode
     {
         static void Main(string[] args)
         {
+            var data = ProcessFile("a_example.txt");
             Console.WriteLine("Hello World!");
         }
-        // static void Group(Slide[] slides, List<Slide> slides2)
-        // {
-        //     for(int i = 0; i < slides.Length; i++)
-        //     {
-        //         int maxPoints = 0;
-        //         int nextSlide = -1;
-        //         if(!slides[i].used)
-        //         {
-        //             for(int ii = 0;  ii < slides.Length; ii++)
-        //             {
-        //                 if(CalculatePoints(slides[i], slides[ii]) > maxPoints && !slides[ii].used)
-        //                 {
-        //                     maxPoints = CalculatePoints(slides[i], slides[ii]);
-        //                     nextSlide = ii;
-        //                 }
-        //             }
-        //             if(nextSlide != -1)
-        //             {
-        //                 slides2.Add(slides[nextSlide]);
-        //             }
-        //         }                
-        //     }
+
         static void Group(List<Slide> slides, List<Slide> slides2)
         {                
             int i = 0;
@@ -94,5 +75,38 @@ namespace HashCode
             }
         }
 
+        static Tuple<List<Photo>, List<Photo>> ProcessFile(string filename)
+        {
+            var horizontal = new List<Photo>();
+            var vertical = new List<Photo>();
+
+            using (var reader = new StreamReader(filename))
+            {
+                int count = int.Parse(reader.ReadLine());
+                int id = 0;
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine().Split();
+
+                    var tags = new string[line.Length - 2];
+                    for (int i = 2; i < line.Length; i++)
+                    {
+                        tags[i - 2] = line[i];
+                    }
+
+                    //TODO: sort by Count
+                    if (line[0].Equals("H"))
+                    {
+                        horizontal.Add(new Photo(tags, id++));
+                    }
+                    else
+                    {
+                        vertical.Add(new Photo(tags, id++));
+                    }
+                }
+            }
+
+            return new Tuple<List<Photo>, List<Photo>>(horizontal, vertical);
+        }
     }
 }
