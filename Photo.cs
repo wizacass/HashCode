@@ -5,12 +5,12 @@ public class Photo
     public bool IsUsed { get; private set; }
 
     public int ID { get; }
-    public int Count => _tags.Length;
-    private string[] _tags;
+    public int Count => Tags.Length;
+    public string[] Tags;
 
     public Photo(string[] tags, int id)
     {
-        _tags = tags;
+        Tags = tags;
         IsUsed = false;
         ID = id;
     }
@@ -24,7 +24,7 @@ public class Photo
     {
         var sb = new StringBuilder();
 
-        foreach (string tag in _tags)
+        foreach (string tag in Tags)
         {
             sb.Append($"{tag} ");
         }

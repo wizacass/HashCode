@@ -106,25 +106,25 @@ namespace HashCode
 
             return new Tuple<List<Photo>, List<Photo>>(horizontal, vertical);
         }
-      
-        public static List<Slide> VerticalsToSlides(List<Photo>vertical)
+
+        public static List<Slide> VerticalsToSlides(List<Photo> vertical)
         {
             List<Slide> slides = new List<Slide>();
-            for(int i = vertical.Count/2 + vertical.Count%2; i < vertical.Count;i ++)
+            for (int i = vertical.Count / 2 + vertical.Count % 2; i < vertical.Count; i++)
             {
-                int[] overlap = new int[vertical.Count/2 + vertical.Count%2];
-                for(int j = 0; j < vertical.Count/2 + vertical.Count%2;j ++)
+                int[] overlap = new int[vertical.Count / 2 + vertical.Count % 2];
+                for (int j = 0; j < vertical.Count / 2 + vertical.Count % 2; j++)
                 {
-                    if(vertical[j].used)
+                    if (vertical[j].IsUsed)
                     {
                         overlap[j] = 101;
-                        continue;                        
+                        continue;
                     }
-                    overlap[j] = vertical[i].Tags.overlap(vertical[j].Tags).Count;
+                    overlap[j] = vertical[i].Tags.Intersect(vertical[j].Tags).Count();
                 }
                 int indexOMin = Array.LastIndexOf(overlap, overlap.Min());
-                vertical[i].used = true;
-                vertical[indexOMin].used = true;
+                vertical[i].Use();
+                vertical[indexOMin].Use();
                 Slide slide = new Slide(vertical[i].ID, vertical[i].Tags, vertical[indexOMin].ID, vertical[indexOMin].Tags);
                 slides.Add(slide);
             }
@@ -132,4 +132,3 @@ namespace HashCode
         }
     }
 }
-
