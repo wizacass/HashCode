@@ -10,26 +10,24 @@ namespace HashCode
         static void Main(string[] args)
         {
             var data = ProcessFile("a_example.txt");
-            Console.WriteLine("data done");
-
             var verticalSlides = VerticalsToSlides(data.Item2);
-            Console.WriteLine("vertical done");
-
             var allSlides = verticalSlides.Concat(ToSlides(data.Item1)).ToList();
-            Console.WriteLine("slides done");
-
             var grouped = new List<Slide>();
             Group(allSlides, grouped);
-            Console.WriteLine("group done");
 
+            Write("out.txt", grouped);
+        }
 
-            Console.WriteLine(grouped.Count);
-            foreach (var slide in grouped)
+        static void Write(string filename, List<Slide> slides)
+        {
+            using (var writer = new StreamWriter(filename))
             {
-                Console.WriteLine(slide.ToString());
+                writer.WriteLine(slides.Count);
+                foreach (var slide in slides)
+                {
+                    writer.WriteLine(slide.ToString().Trim());
+                }
             }
-
-            Console.WriteLine("Hello World!");
         }
 
         static List<Slide> ToSlides(List<Photo> photos)
@@ -51,7 +49,7 @@ namespace HashCode
             while (slides2.Count < slides.Count)
             {
                 int nextSlide = -1;
-                
+
                 int maxPoints = -1;
 
                 for (int j = 0; j < slides.Count; j++)
@@ -72,9 +70,9 @@ namespace HashCode
                     slides[nextSlide].Use();
                     i = nextSlide;
                 }
-                
+
             }
-            
+
         }
 
         static int CalculatePoints(Slide slide1, Slide slide2)
