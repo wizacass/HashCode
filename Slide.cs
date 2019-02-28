@@ -6,7 +6,6 @@ public class Slide
     public int Photo1 { get; }
     public int? Photo2 { get; }
     public bool IsUsed { get; private set; }
-
     public int Count => _tags.Count;
     public List<string> _tags;
 
@@ -18,9 +17,12 @@ public class Slide
 
         _tags = tags1.ToList();
 
-        if (tags1 != null || tags2.Length > 0)
+        if (tags2 != null)
         {
-            FillTags(tags2);
+            if (tags2.Length > 0)
+            {
+                FillTags(tags2);
+            }
         }
     }
 
@@ -38,5 +40,10 @@ public class Slide
     public void Use()
     {
         IsUsed = true;
+    }
+
+    public override string ToString()
+    {
+        return Photo1.ToString() + " " + Photo2.ToString();
     }
 }
