@@ -45,33 +45,36 @@ namespace HashCode
         static void Group(List<Slide> slides, List<Slide> slides2)
         {
             int i = 0;
-            int nextSlide = -1;
+            slides2.Add(slides[i]);
+            slides2[i].Use();
+
             while (slides2.Count < slides.Count)
             {
-                if (!slides[i].IsUsed)
-                {
-                    int maxPoints = -1;
+                int nextSlide = -1;
+                
+                int maxPoints = -1;
 
-                    for (int j = 0; j < slides.Count; j++)
+                for (int j = 0; j < slides.Count; j++)
+                {
+                    if (!slides[j].IsUsed)
                     {
-                        if (!slides[j].IsUsed)
+                        if (CalculatePoints(slides[i], slides[j]) > maxPoints && i != j)
                         {
-                            if (CalculatePoints(slides[i], slides[j]) > maxPoints && i != j)
-                            {
-                                maxPoints = CalculatePoints(slides[i], slides[j]);
-                                nextSlide = j;
-                            }
+                            maxPoints = CalculatePoints(slides[i], slides[j]);
+                            nextSlide = j;
                         }
                     }
                 }
+                if (nextSlide != -1)
+                {
+                    var current = slides[nextSlide];
+                    slides2.Add(slides[nextSlide]);
+                    slides[nextSlide].Use();
+                    i = nextSlide;
+                }
+                
             }
-            if (nextSlide != -1)
-            {
-                var current = slides[nextSlide];
-                slides2.Add(current);
-                current.Use();
-                i = nextSlide;
-            }
+            
         }
 
         static int CalculatePoints(Slide slide1, Slide slide2)
