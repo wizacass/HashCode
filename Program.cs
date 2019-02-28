@@ -10,12 +10,17 @@ namespace HashCode
         static void Main(string[] args)
         {
             var data = ProcessFile("a_example.txt");
+            Console.WriteLine("Data");
             var verticalSlides = VerticalsToSlides(data.Item2);
+            Console.WriteLine("Vertical");
             var allSlides = verticalSlides.Concat(ToSlides(data.Item1)).ToList();
+            Console.WriteLine("All");
             var grouped = new List<Slide>();
             Group(allSlides, grouped);
+            Console.WriteLine("Group");
 
-            Write("out.txt", grouped);
+            Write("out_a.txt", grouped);
+            Console.WriteLine("Write");
         }
 
         static void Write(string filename, List<Slide> slides)
